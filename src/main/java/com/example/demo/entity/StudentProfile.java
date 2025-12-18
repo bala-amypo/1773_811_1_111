@@ -25,6 +25,10 @@ private String department;
 private Integer yearLevel;
 private boolean active;
 private LocalDateTime createdAt = LocalDateTime.now();
+public void setStudentAId(Long studentAId) {
+    this.studentAId = studentAId;
+}
+
 
 
 
