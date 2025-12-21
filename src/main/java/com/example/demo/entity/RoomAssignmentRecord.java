@@ -12,5 +12,11 @@ public class RoomAssignmentRecord {
     private Long studentId;
     private String roomNumber;
 
-    // getters & setters
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
+    }
+
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
+    }
 }

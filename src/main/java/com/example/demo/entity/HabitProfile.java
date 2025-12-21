@@ -9,12 +9,24 @@ public class HabitProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    private int cleanliness;
+
+    @ManyToOne
     private StudentProfile student;
 
-    private int cleanliness;
-    private int noiseLevel;
-    private boolean smoking;
+    public int getCleanliness() {
+        return cleanliness;
+    }
 
-    // getters & setters
+    public void setCleanliness(int cleanliness) {
+        this.cleanliness = cleanliness;
+    }
+
+    public StudentProfile getStudent() {
+        return student;
+    }
+
+    public void setStudent(StudentProfile student) {
+        this.student = student;
+    }
 }

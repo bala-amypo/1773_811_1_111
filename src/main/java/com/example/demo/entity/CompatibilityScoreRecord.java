@@ -9,13 +9,19 @@ public class CompatibilityScoreRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private StudentProfile studentA;
-
-    @ManyToOne
-    private StudentProfile studentB;
-
+    private Long studentAId;
+    private Long studentBId;
     private double score;
 
-    // getters & setters
+    public void setStudentAId(Long studentAId) {
+        this.studentAId = studentAId;
+    }
+
+    public void setStudentBId(Long studentBId) {
+        this.studentBId = studentBId;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
 }

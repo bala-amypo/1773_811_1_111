@@ -12,5 +12,12 @@ public class MatchAttemptRecord {
     private Long studentAId;
     private Long studentBId;
 
-    // getters & setters
+    public void setStudentAId(Long studentAId) {
+        this.studentAId = studentAId;
+    }
+
+    public void setStudentBId(Long studentBId) {
+        this.studentBId = studentBId;
+    }
 }
+ 
