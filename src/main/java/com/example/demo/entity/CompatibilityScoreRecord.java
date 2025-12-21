@@ -1,16 +1,11 @@
 package com.example.demo.entity;
-import com.example.demo.entity.CompatibilityScoreRecord;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-
-public interface CompatibilityScoreService {
-
-    CompatibilityScoreRecord calculate(Long studentAId, Long studentBId);
-}
 public class CompatibilityScoreRecord {
 
     @Id

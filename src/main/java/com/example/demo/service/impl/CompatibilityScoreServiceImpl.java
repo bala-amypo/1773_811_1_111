@@ -1,6 +1,6 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.*;
+import com.example.demo.entity.CompatibilityScoreRecord;
 import com.example.demo.service.CompatibilityScoreService;
 import org.springframework.stereotype.Service;
 
@@ -8,15 +8,13 @@ import org.springframework.stereotype.Service;
 public class CompatibilityScoreServiceImpl implements CompatibilityScoreService {
 
     @Override
-    public CompatibilityScoreRecord calculate(HabitProfile a, HabitProfile b) {
+    public CompatibilityScoreRecord calculate(Long studentAId, Long studentBId) {
 
-        double score = 100 - Math.abs(a.getCleanliness() - b.getCleanliness()) * 10;
+        CompatibilityScoreRecord record = new CompatibilityScoreRecord();
+        record.setStudentAId(studentAId);
+        record.setStudentBId(studentBId);
+        record.setScore(75.0);
 
-        CompatibilityScoreRecord r = new CompatibilityScoreRecord();
-        r.setStudentAId(a.getStudent().getId());
-        r.setStudentBId(b.getStudent().getId());
-        r.setScore(score);
-
-        return r;
+        return record;
     }
 }
