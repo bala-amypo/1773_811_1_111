@@ -1,7 +1,3 @@
-package com.example.demo.entity;
-
-import jakarta.persistence.*;
-
 @Entity
 public class CompatibilityScoreRecord {
 
@@ -17,5 +13,7 @@ public class CompatibilityScoreRecord {
 
     private double score;
 
-    // getters & setters
+    public void setScore(double score) {
+        this.score = score;
+    }
 }
