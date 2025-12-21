@@ -2,38 +2,27 @@ package com.example.demo.service.impl;
 
 import com.example.demo.entity.StudentProfile;
 import com.example.demo.repository.StudentProfileRepository;
+import com.example.demo.service.StudentProfileService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class StudentProfileServiceImpl {
+public class StudentProfileServiceImpl implements StudentProfileService {
 
-    private final StudentProfileRepository studentProfileRepository;
+    private final StudentProfileRepository repo;
 
-    public StudentProfileServiceImpl(StudentProfileRepository studentProfileRepository) {
-        this.studentProfileRepository = studentProfileRepository;
+    public StudentProfileServiceImpl(StudentProfileRepository repo) {
+        this.repo = repo;
     }
 
-    // Create student
-    public StudentProfile createStudent(StudentProfile profile) {
-
-        if (profile.getId() != null &&
-            studentProfileRepository.findById(profile.getId()).isPresent()) {
-            throw new IllegalArgumentException("studentId exists");
-        }
-
-        return studentProfileRepository.save(profile);
+    public StudentProfile create(StudentProfile s) {
+        if (s.getAge() <= 0)
+            throw new IllegalArgumentException("age must be > 0");
+        return repo.save(s);
     }
 
-    // Get by ID
-    public StudentProfile getStudentById(Long id) {
-        return studentProfileRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("not found"));
-    }
-
-    // Get all
-    public List<StudentProfile> getAllStudents() {
-        return studentProfileRepository.findAll();
+    public List<StudentProfile> getAll() {
+        return repo.findAll();
     }
 }

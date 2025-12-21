@@ -8,17 +8,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class RoomAssignmentServiceImpl implements RoomAssignmentService {
 
-    private final RoomAssignmentRecordRepository repository;
+    private final RoomAssignmentRecordRepository repo;
 
-    public RoomAssignmentServiceImpl(RoomAssignmentRecordRepository repository) {
-        this.repository = repository;
+    public RoomAssignmentServiceImpl(RoomAssignmentRecordRepository repo) {
+        this.repo = repo;
     }
 
-    @Override
     public void assignRoom(Long studentId) {
-        RoomAssignmentRecord record = new RoomAssignmentRecord();
-        record.setStudentId(studentId);
-        record.setRoomNumber("ROOM-" + studentId); // simple deterministic room
-        repository.save(record);
+        RoomAssignmentRecord r = new RoomAssignmentRecord();
+        r.setStudentId(studentId);
+        r.setRoomNumber("ROOM-" + studentId);
+        repo.save(r);
     }
 }

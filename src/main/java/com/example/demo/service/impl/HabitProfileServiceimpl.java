@@ -13,7 +13,8 @@ public class HabitProfileServiceImpl implements HabitProfileService {
     private final HabitProfileRepository habitRepo;
     private final StudentProfileRepository studentRepo;
 
-    public HabitProfileServiceImpl(HabitProfileRepository h, StudentProfileRepository s) {
+    public HabitProfileServiceImpl(HabitProfileRepository h,
+                                   StudentProfileRepository s) {
         this.habitRepo = h;
         this.studentRepo = s;
     }
@@ -21,7 +22,6 @@ public class HabitProfileServiceImpl implements HabitProfileService {
     public HabitProfile save(Long studentId, HabitProfile habit) {
         StudentProfile student = studentRepo.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
-
         habit.setStudent(student);
         return habitRepo.save(habit);
     }

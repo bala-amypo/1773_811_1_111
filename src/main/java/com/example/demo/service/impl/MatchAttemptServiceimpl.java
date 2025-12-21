@@ -8,17 +8,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class MatchAttemptServiceImpl implements MatchAttemptService {
 
-    private final MatchAttemptRecordRepository repository;
+    private final MatchAttemptRecordRepository repo;
 
-    public MatchAttemptServiceImpl(MatchAttemptRecordRepository repository) {
-        this.repository = repository;
+    public MatchAttemptServiceImpl(MatchAttemptRecordRepository repo) {
+        this.repo = repo;
     }
 
-    @Override
     public void recordAttempt(Long aId, Long bId) {
-        MatchAttemptRecord record = new MatchAttemptRecord();
-        record.setStudentAId(aId);
-        record.setStudentBId(bId);
-        repository.save(record);
+        MatchAttemptRecord r = new MatchAttemptRecord();
+        r.setStudentAId(aId);
+        r.setStudentBId(bId);
+        repo.save(r);
     }
 }
