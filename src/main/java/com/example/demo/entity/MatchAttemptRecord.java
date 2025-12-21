@@ -1,3 +1,7 @@
+package com.example.demo.entity;
+
+import jakarta.persistence.*;
+
 @Entity
 public class MatchAttemptRecord {
 
@@ -8,11 +12,5 @@ public class MatchAttemptRecord {
     private Long studentAId;
     private Long studentBId;
 
-    public void setStudentAId(Long studentAId) {
-        this.studentAId = studentAId;
-    }
-
-    public void setStudentBId(Long studentBId) {
-        this.studentBId = studentBId;
-    }
+    // getters & setters
 }

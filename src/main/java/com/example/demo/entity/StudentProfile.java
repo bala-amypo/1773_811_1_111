@@ -1,3 +1,7 @@
+package com.example.demo.entity;
+
+import jakarta.persistence.*;
+
 @Entity
 public class StudentProfile {
 
@@ -5,9 +9,10 @@ public class StudentProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
     private int age;
+    private String gender;
+    private String course;
 
-    public int getAge() {
-        return age;
-    }
+    // getters & setters
 }
