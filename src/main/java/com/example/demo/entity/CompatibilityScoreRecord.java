@@ -1,27 +1,13 @@
-package com.example.demo.entity;
+@ManyToOne
+private StudentProfile studentA;
 
-import jakarta.persistence.*;
+@ManyToOne
+private StudentProfile studentB;
 
-@Entity
-public class CompatibilityScoreRecord {
+public void setStudentA(StudentProfile studentA) {
+    this.studentA = studentA;
+}
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private Long studentAId;
-    private Long studentBId;
-    private double score;
-
-    public void setStudentAId(Long studentAId) {
-        this.studentAId = studentAId;
-    }
-
-    public void setStudentBId(Long studentBId) {
-        this.studentBId = studentBId;
-    }
-
-    public void setScore(double score) {
-        this.score = score;
-    }
+public void setStudentB(StudentProfile studentB) {
+    this.studentB = studentB;
 }
