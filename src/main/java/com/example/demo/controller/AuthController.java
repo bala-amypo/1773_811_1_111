@@ -8,6 +8,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public String login() {
-        return "Login success";
+        return "Login successful";
     }
 }
