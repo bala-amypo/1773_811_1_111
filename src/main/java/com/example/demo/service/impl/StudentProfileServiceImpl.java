@@ -1,11 +1,11 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.StudentProfile;
+import com.example.demo.model.StudentProfile;
 import com.example.demo.repository.StudentProfileRepository;
 import com.example.demo.service.StudentProfileService;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentProfileServiceImpl implements StudentProfileService {
@@ -16,13 +16,37 @@ public class StudentProfileServiceImpl implements StudentProfileService {
         this.repo = repo;
     }
 
-    public StudentProfile create(StudentProfile s) {
-        if (s.getAge() <= 0)
-            throw new IllegalArgumentException("age must be > 0");
+    @Override
+    public StudentProfile createStudent(StudentProfile student) {
+        if (repo.findByStudentId(student.getStudentId()).isPresent()) {
+            throw new IllegalArgumentException("studentId exists");
+        }
+        if (repo.findByEmail(student.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("email exists");
+        }
+        return repo.save(student);
+    }
+
+    @Override
+    public StudentProfile getStudentById(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+    }
+
+    @Override
+    public List<StudentProfile> getAllStudents() {
+        return repo.findAll();
+    }
+
+    @Override
+    public StudentProfile updateStudentStatus(Long id, Boolean active) {
+        StudentProfile s = getStudentById(id);
+        s.setActive(active);
         return repo.save(s);
     }
 
-    public List<StudentProfile> getAll() {
-        return repo.findAll();
+    @Override
+    public Optional<StudentProfile> findByStudentId(String studentId) {
+        return repo.findByStudentId(studentId);
     }
 }
