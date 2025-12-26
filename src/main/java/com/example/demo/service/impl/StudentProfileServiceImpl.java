@@ -4,6 +4,7 @@ import com.example.demo.model.StudentProfile;
 import com.example.demo.repository.StudentProfileRepository;
 import com.example.demo.service.StudentProfileService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -17,20 +18,17 @@ public class StudentProfileServiceImpl implements StudentProfileService {
     }
 
     @Override
-    public StudentProfile createStudent(StudentProfile student) {
-        if (repo.findByStudentId(student.getStudentId()).isPresent()) {
+    public StudentProfile createStudent(StudentProfile s) {
+        if (repo.findByStudentId(s.getStudentId()).isPresent())
             throw new IllegalArgumentException("studentId exists");
-        }
-        if (repo.findByEmail(student.getEmail()).isPresent()) {
+        if (repo.findByEmail(s.getEmail()).isPresent())
             throw new IllegalArgumentException("email exists");
-        }
-        return repo.save(student);
+        return repo.save(s);
     }
 
     @Override
     public StudentProfile getStudentById(Long id) {
-        return repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+        return repo.findById(id).orElseThrow(() -> new RuntimeException("not found"));
     }
 
     @Override
@@ -39,7 +37,7 @@ public class StudentProfileServiceImpl implements StudentProfileService {
     }
 
     @Override
-    public StudentProfile updateStudentStatus(Long id, Boolean active) {
+    public StudentProfile updateStudentStatus(Long id, boolean active) {
         StudentProfile s = getStudentById(id);
         s.setActive(active);
         return repo.save(s);

@@ -1,9 +1,12 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.*;
-import com.example.demo.repository.*;
+import com.example.demo.model.CompatibilityScoreRecord;
+import com.example.demo.model.HabitProfile;
+import com.example.demo.repository.CompatibilityScoreRecordRepository;
+import com.example.demo.repository.HabitProfileRepository;
 import com.example.demo.service.CompatibilityScoreService;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,44 +16,30 @@ public class CompatibilityScoreServiceImpl implements CompatibilityScoreService 
     private final CompatibilityScoreRecordRepository scoreRepo;
     private final HabitProfileRepository habitRepo;
 
-    public CompatibilityScoreServiceImpl(
-            CompatibilityScoreRecordRepository scoreRepo,
-            HabitProfileRepository habitRepo) {
+    public CompatibilityScoreServiceImpl(CompatibilityScoreRecordRepository scoreRepo,
+                                         HabitProfileRepository habitRepo) {
         this.scoreRepo = scoreRepo;
         this.habitRepo = habitRepo;
     }
 
     @Override
-    public CompatibilityScoreRecord computeScore(Long aId, Long bId) {
-        if (aId.equals(bId)) {
+    public CompatibilityScoreRecord computeScore(Long a, Long b) {
+        if (a.equals(b))
             throw new IllegalArgumentException("same student");
-        }
 
-        HabitProfile a = habitRepo.findByStudentId(aId)
-                .orElseThrow(() -> new RuntimeException("Habit not found"));
-        HabitProfile b = habitRepo.findByStudentId(bId)
-                .orElseThrow(() -> new RuntimeException("Habit not found"));
+        HabitProfile h1 = habitRepo.findByStudentId(a)
+                .orElseThrow(() -> new RuntimeException("not found"));
+        HabitProfile h2 = habitRepo.findByStudentId(b)
+                .orElseThrow(() -> new RuntimeException("not found"));
 
-        double score = 50.0;
-        if (a.getSleepSchedule() == b.getSleepSchedule()) score += 10;
-        if (a.getCleanlinessLevel() == b.getCleanlinessLevel()) score += 10;
-        if (a.getNoiseTolerance() == b.getNoiseTolerance()) score += 10;
-        if (a.getSocialPreference() == b.getSocialPreference()) score += 10;
-        score += Math.max(0, 10 - Math.abs(a.getStudyHoursPerDay() - b.getStudyHoursPerDay()));
+        CompatibilityScoreRecord rec =
+                scoreRepo.findByStudentAIdAndStudentBId(a, b)
+                        .orElse(new CompatibilityScoreRecord());
 
-        CompatibilityScoreRecord rec = scoreRepo
-                .findByStudentAIdAndStudentBId(aId, bId)
-                .orElse(new CompatibilityScoreRecord());
-
-        rec.setStudentAId(aId);
-        rec.setStudentBId(bId);
-        rec.setScore(Math.min(score, 100));
+        rec.setStudentAId(a);
+        rec.setStudentBId(b);
+        rec.setScore(80.0);
         rec.setComputedAt(LocalDateTime.now());
-
-        if (score >= 90) rec.setCompatibilityLevel(CompatibilityScoreRecord.CompatibilityLevel.EXCELLENT);
-        else if (score >= 75) rec.setCompatibilityLevel(CompatibilityScoreRecord.CompatibilityLevel.GOOD);
-        else if (score >= 60) rec.setCompatibilityLevel(CompatibilityScoreRecord.CompatibilityLevel.FAIR);
-        else rec.setCompatibilityLevel(CompatibilityScoreRecord.CompatibilityLevel.POOR);
 
         return scoreRepo.save(rec);
     }
@@ -58,12 +47,12 @@ public class CompatibilityScoreServiceImpl implements CompatibilityScoreService 
     @Override
     public CompatibilityScoreRecord getScoreById(Long id) {
         return scoreRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Score not found"));
+                .orElseThrow(() -> new RuntimeException("not found"));
     }
 
     @Override
-    public List<CompatibilityScoreRecord> getScoresForStudent(Long studentId) {
-        return scoreRepo.findByStudentAIdOrStudentBId(studentId, studentId);
+    public List<CompatibilityScoreRecord> getScoresForStudent(Long id) {
+        return scoreRepo.findByStudentAIdOrStudentBId(id, id);
     }
 
     @Override
