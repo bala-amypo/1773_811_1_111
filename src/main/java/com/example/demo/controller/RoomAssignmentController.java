@@ -1,3 +1,4 @@
+// RoomAssignmentController.java
 package com.example.demo.controller;
 
 import com.example.demo.model.RoomAssignmentRecord;
@@ -5,35 +6,28 @@ import com.example.demo.service.RoomAssignmentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/rooms")
 public class RoomAssignmentController {
 
-    private final RoomAssignmentService roomAssignmentService;
+    private final RoomAssignmentService assignmentService;
 
-    public RoomAssignmentController(
-            RoomAssignmentService roomAssignmentService) {
-        this.roomAssignmentService = roomAssignmentService;
+    public RoomAssignmentController(RoomAssignmentService assignmentService) {
+        this.assignmentService = assignmentService;
     }
 
-    @PostMapping("/{studentAId}/{studentBId}")
-    public ResponseEntity<RoomAssignmentRecord> assignRoom(
-            @PathVariable Long studentAId,
-            @PathVariable Long studentBId) {
-
-        return ResponseEntity.ok(
-                roomAssignmentService.assignRoom(studentAId, studentBId)
-        );
+    @PostMapping
+    public ResponseEntity<RoomAssignmentRecord> assign(@RequestBody RoomAssignmentRecord record) {
+        return ResponseEntity.ok(assignmentService.assignRoom(record));
     }
 
-    @GetMapping("/{studentId}")
-    public ResponseEntity<List<RoomAssignmentRecord>> getRoomAssignments(
-            @PathVariable Long studentId) {
+    @GetMapping("/{id}")
+    public ResponseEntity<RoomAssignmentRecord> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(assignmentService.getAssignmentById(id));
+    }
 
-        return ResponseEntity.ok(
-                roomAssignmentService.getRoomAssignmentsForStudent(studentId)
-        );
+    @GetMapping
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.ok(assignmentService.getAllAssignments());
     }
 }

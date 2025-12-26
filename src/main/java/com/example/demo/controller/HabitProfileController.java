@@ -1,3 +1,4 @@
+// HabitProfileController.java
 package com.example.demo.controller;
 
 import com.example.demo.model.HabitProfile;
@@ -9,25 +10,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/habits")
 public class HabitProfileController {
 
-    private final HabitProfileService habitProfileService;
+    private final HabitProfileService habitService;
 
-    public HabitProfileController(HabitProfileService habitProfileService) {
-        this.habitProfileService = habitProfileService;
+    public HabitProfileController(HabitProfileService habitService) {
+        this.habitService = habitService;
     }
 
     @PostMapping
-    public ResponseEntity<HabitProfile> saveHabitProfile(
-            @RequestBody HabitProfile habitProfile) {
-        return ResponseEntity.ok(
-                habitProfileService.saveHabitProfile(habitProfile)
-        );
+    public ResponseEntity<HabitProfile> createOrUpdate(@RequestBody HabitProfile habit) {
+        return ResponseEntity.ok(habitService.createOrUpdateHabit(habit));
     }
 
     @GetMapping("/{studentId}")
-    public ResponseEntity<HabitProfile> getHabitProfile(
-            @PathVariable Long studentId) {
-        return ResponseEntity.ok(
-                habitProfileService.getHabitProfileByStudentId(studentId)
-        );
+    public ResponseEntity<HabitProfile> getByStudent(@PathVariable Long studentId) {
+        return ResponseEntity.ok(habitService.getHabitByStudent(studentId));
     }
 }
