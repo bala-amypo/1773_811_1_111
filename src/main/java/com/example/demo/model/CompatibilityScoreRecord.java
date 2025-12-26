@@ -1,3 +1,4 @@
+// CompatibilityScoreRecord.java
 package com.example.demo.model;
 
 import jakarta.persistence.*;
@@ -6,6 +7,8 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "compatibility_scores")
 public class CompatibilityScoreRecord {
+
+    public enum CompatibilityLevel { POOR, AVERAGE, GOOD, EXCELLENT }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,70 +22,29 @@ public class CompatibilityScoreRecord {
     @Enumerated(EnumType.STRING)
     private CompatibilityLevel compatibilityLevel;
 
-    @Column(columnDefinition = "TEXT")
     private String detailsJson;
 
-    private LocalDateTime computedAt;
+    private LocalDateTime computedAt = LocalDateTime.now();
 
-    public enum CompatibilityLevel {
-        POOR, FAIR, GOOD, EXCELLENT
-    }
+    // getters and setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    // ---------------- Getters & Setters ----------------
+    public Long getStudentAId() { return studentAId; }
+    public void setStudentAId(Long studentAId) { this.studentAId = studentAId; }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getStudentBId() { return studentBId; }
+    public void setStudentBId(Long studentBId) { this.studentBId = studentBId; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Double getScore() { return score; }
+    public void setScore(Double score) { this.score = score; }
 
-    public Long getStudentAId() {
-        return studentAId;
-    }
+    public CompatibilityLevel getCompatibilityLevel() { return compatibilityLevel; }
+    public void setCompatibilityLevel(CompatibilityLevel compatibilityLevel) { this.compatibilityLevel = compatibilityLevel; }
 
-    public void setStudentAId(Long studentAId) {
-        this.studentAId = studentAId;
-    }
+    public String getDetailsJson() { return detailsJson; }
+    public void setDetailsJson(String detailsJson) { this.detailsJson = detailsJson; }
 
-    public Long getStudentBId() {
-        return studentBId;
-    }
-
-    public void setStudentBId(Long studentBId) {
-        this.studentBId = studentBId;
-    }
-
-    public Double getScore() {
-        return score;
-    }
-
-    public void setScore(Double score) {
-        this.score = score;
-    }
-
-    public CompatibilityLevel getCompatibilityLevel() {
-        return compatibilityLevel;
-    }
-
-    public void setCompatibilityLevel(CompatibilityLevel compatibilityLevel) {
-        this.compatibilityLevel = compatibilityLevel;
-    }
-
-    public String getDetailsJson() {
-        return detailsJson;
-    }
-
-    public void setDetailsJson(String detailsJson) {
-        this.detailsJson = detailsJson;
-    }
-
-    public LocalDateTime getComputedAt() {
-        return computedAt;
-    }
-
-    public void setComputedAt(LocalDateTime computedAt) {
-        this.computedAt = computedAt;
-    }
+    public LocalDateTime getComputedAt() { return computedAt; }
+    public void setComputedAt(LocalDateTime computedAt) { this.computedAt = computedAt; }
 }
