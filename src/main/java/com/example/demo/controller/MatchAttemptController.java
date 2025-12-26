@@ -1,22 +1,38 @@
 package com.example.demo.controller;
 
-import com.example.demo.service.MatchAttemptService;
+import com.example.demo.model.MatchAttemptRecord;
+import com.example.demo.service.MatchService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/match-attempt")
-public class MatchAttemptController {
+@RequestMapping("/api/matches")
+public class MatchController {
 
-    private final MatchAttemptService service;
+    private final MatchService matchService;
 
-    public MatchAttemptController(MatchAttemptService service) {
-        this.service = service;
+    public MatchController(MatchService matchService) {
+        this.matchService = matchService;
     }
 
-    @PostMapping
-    public String record(@RequestParam Long a,
-                         @RequestParam Long b) {
-        service.recordAttempt(a, b);
-        return "Match attempt recorded";
+    @PostMapping("/{initiatorId}/{candidateId}")
+    public ResponseEntity<MatchAttemptRecord> attemptMatch(
+            @PathVariable Long initiatorId,
+            @PathVariable Long candidateId) {
+
+        return ResponseEntity.ok(
+                matchService.attemptMatch(initiatorId, candidateId)
+        );
+    }
+
+    @GetMapping("/{studentId}")
+    public ResponseEntity<List<MatchAttemptRecord>> getMatchHistory(
+            @PathVariable Long studentId) {
+
+        return ResponseEntity.ok(
+                matchService.getMatchAttempts(studentId)
+        );
     }
 }
